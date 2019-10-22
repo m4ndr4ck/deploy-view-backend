@@ -17,6 +17,7 @@ import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -32,13 +33,18 @@ public class GetDeploymentByApplicationRestAdapter implements LoadDeploymentOutP
     List<Deployment> results;
     private final DeploymentMapper deploymentMapper;
 
+    @Value( "${elasticsearch}" )
+    String elasticsearch;
+    @Value( "${clustername}" )
+    String clustername;
+
     public List<Deployment> loadDeployment(String application, String minDate, String maxDate){
 
         try {
             Client client = new PreBuiltTransportClient(
                     Settings.builder().put("client.transport.sniff", true)
-                            .put("cluster.name", "docker-cluster").build())
-                                .addTransportAddress(new TransportAddress(InetAddress.getByName("192.168.43.102"), 9300));
+                            .put("cluster.name", clustername).build())
+                                .addTransportAddress(new TransportAddress(InetAddress.getByName(elasticsearch), 9300));
 
             // create the search request
             SearchRequest searchRequest = new SearchRequest("deployments");
