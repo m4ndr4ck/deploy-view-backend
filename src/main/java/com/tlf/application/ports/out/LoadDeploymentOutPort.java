@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface LoadDeploymentOutPort {
 
-    List<Deployment> loadDeployment(String application);
+    List<Deployment> loadDeployment(String application, String minDate, String maxDate);
 
 }

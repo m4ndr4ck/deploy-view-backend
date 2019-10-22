@@ -17,11 +17,13 @@ public class LoadDeploymentAdapter {
 
     private final LoadDeploymentQuery loadDeploymentQuery;
 
-    @GetMapping(path = "/deployments/get/{application}")
+    @GetMapping(path = "/deployments/get/{application}/{minDate}/{maxDate}")
     List<Deployment> loadDeployment(
-            @PathVariable("application") String application) {
+            @PathVariable("application") String application,
+            @PathVariable("minDate") String minDate,
+            @PathVariable("maxDate") String maxDate) {
 
-        LoadDeploymentCommand command = new LoadDeploymentCommand(application);
+        LoadDeploymentCommand command = new LoadDeploymentCommand(application, minDate, maxDate);
 
         return loadDeploymentQuery.loadDeployment(command);
     }

@@ -32,13 +32,13 @@ public class GetDeploymentByApplicationRestAdapter implements LoadDeploymentOutP
     List<Deployment> results;
     private final DeploymentMapper deploymentMapper;
 
-    public List<Deployment> loadDeployment(String application){
+    public List<Deployment> loadDeployment(String application, String minDate, String maxDate){
 
         try {
             Client client = new PreBuiltTransportClient(
                     Settings.builder().put("client.transport.sniff", true)
                             .put("cluster.name", "docker-cluster").build())
-                                .addTransportAddress(new TransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
+                                .addTransportAddress(new TransportAddress(InetAddress.getByName("192.168.43.102"), 9300));
 
             // create the search request
             SearchRequest searchRequest = new SearchRequest("deployments");
@@ -47,11 +47,13 @@ public class GetDeploymentByApplicationRestAdapter implements LoadDeploymentOutP
 
             SearchResponse response = client.prepareSearch("deployments")
                     .setTypes("application")
-                    .setQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery ("application", application)))
+                    .setQuery(QueryBuilders.boolQuery()
+                            .filter(QueryBuilders.matchQuery ("application", application).operator(Operator.AND))
+                            .filter(QueryBuilders.rangeQuery("date").gte(minDate).lte(maxDate)))
                     .execute()
                     .actionGet();
             List<SearchHit> searchHits = Arrays.asList(response.getHits().getHits());
-                results = new ArrayList<>();
+                        results = new ArrayList<>();
 
             searchHits.forEach(
                     hit ->  {

@@ -13,6 +13,8 @@ class DeploymentJSONEntity {
 
     private String module;
 
+    private String version;
+
     private String environment;
 
     private String date;

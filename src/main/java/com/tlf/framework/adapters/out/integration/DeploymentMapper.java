@@ -10,6 +10,7 @@ public class DeploymentMapper {
         return Deployment.build(
                 deployment.getApplication(),
                 deployment.getModule(),
+                deployment.getVersion(),
                 deployment.getEnvironment(),
                 deployment.getDate(),
                 deployment.getStatus());

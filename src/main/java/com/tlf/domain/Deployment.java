@@ -13,6 +13,8 @@ public class Deployment {
 
     @Getter private final String module;
 
+    @Getter private final String version;
+
     @Getter private final String environment;
 
     @Getter private final String date;
@@ -22,10 +24,11 @@ public class Deployment {
     public static Deployment build(
             String application,
             String module,
+            String version,
             String environment,
             String date,
             String status) {
-        return new Deployment(application, module, environment, date, status);
+        return new Deployment(application, module, version, environment, date, status);
     }
 
 

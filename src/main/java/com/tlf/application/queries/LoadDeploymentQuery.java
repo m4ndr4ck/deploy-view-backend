@@ -20,8 +20,16 @@ public interface LoadDeploymentQuery {
         @NotNull
         private final String application;
 
-        public LoadDeploymentCommand(String application) {
+        @NotNull
+        private final String minDate;
+
+        @NotNull
+        private final String maxDate;
+
+        public LoadDeploymentCommand(String application, String minDate, String maxDate) {
             this.application = application;
+            this.minDate = minDate;
+            this.maxDate = maxDate;
             this.validateSelf();
         }
     }

@@ -18,7 +18,10 @@ public class LoadDeploymentInPort implements LoadDeploymentQuery {
 
     @Override
     public List<Deployment> loadDeployment(LoadDeploymentCommand deploymentCommand){
-        return loadDeploymentOutPort.loadDeployment(deploymentCommand.getApplication());
+        return loadDeploymentOutPort.loadDeployment(
+                deploymentCommand.getApplication(),
+                deploymentCommand.getMinDate(),
+                deploymentCommand.getMaxDate());
     }
 
 }
